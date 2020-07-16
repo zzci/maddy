@@ -1,21 +1,21 @@
 package module
 
-import "crypto/tls"
+import (
+	"crypto/tls"
+)
 
 // TLSLoader interface is module interface that can be used to supply TLS
 // certificates to TLS-enabled endpoints.
 //
-// The interface is intentionally kept simple, all configuration and parameters
-// necessary are to be provided using conventional module configuration.
+// Note that loading function may be called for each connection - it is
+// highly recommended to cache parsed form of certificate.
 //
-// If loader returns multiple certificate chains - endpoint will serve them
-// based on SNI matching.
-//
-// Note that loading function will be called for each connections - it is
-// highly recommended to cache parsed form.
+// Function ConfigureTLS should do necessary changes to the config object
+// to make it use provided certificates. It may change GetCertificates
+// or Certificates.
 //
 // Modules implementing this interface should be registered with prefix
 // "tls.loader." in name.
 type TLSLoader interface {
-	LoadCerts() ([]tls.Certificate, error)
+	ConfigureTLS(cfg *tls.Config) error
 }

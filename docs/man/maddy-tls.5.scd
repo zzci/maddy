@@ -35,6 +35,11 @@ tls {
 
 	If multiple certificates are listed, SNI will be used.
 
+- acme (EXPERIMENTAL)
+
+	Obtains TLS certificates using ACME protocol with dns-01 challenge.
+	Requires additional configuration (see below).
+
 - off
 
 	Not really a loader but a special value for tls directive, explicitly disables TLS for
@@ -152,3 +157,52 @@ server certificates.
 Present the specified certificate when server requests a client certificate.
 Files should use PEM format. Both directives should be specified.
 
+## ACME configuration
+
+ACME dns-01 challenge is required since maddy usually has no access to port 80
+or 443 to use HTTP-based challenge. This requires configuration to permit maddy
+to non-interactively edit DNS records for your MX domain.
+
+In maddy configuration you should specify DNS provider ID and domains to
+acquire certificates for. Additional per-provider configuration needs to be
+provided via environment variables. See https://go-acme.github.io/lego/dns/
+for needed configuration and available providers.
+
+For all providers except for rfc2136 maddy needs to be built with
+--tags 'acme_dns_PROVIDER' passed to build.sh script or go build command.
+e.g. ./build.sh --tags 'acme_dns_cloudflare'
+
+Also you will probably need to add "agreed" directive to indicate you agree
+to CA ToS.
+
+Full example:
+```
+tls {
+	loader acme rfc2136 mx.example.org {
+		agreed
+	}
+}
+```
+
+## ACME directives
+
+*Syntax:* ca _url_ ++
+*Default:* Let's Encrypt production endpoint
+
+HTTPS URL of ACME CA directory endpoint.
+
+*Syntax:* agreed _boolean_ ++
+*Default:* false
+
+Indicates agreement to CA ToS.
+
+*Syntax:* dns_provider _name_ ++
+*Default:* not set
+
+DNS provider name if one was not provided in arguments.
+
+*Syntax:* names _list..._ ++
+*Default:* none
+
+List of domains to obtain certificates for, if none was provided in
+arguments.

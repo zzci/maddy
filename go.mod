@@ -5,6 +5,7 @@ go 1.14
 require (
 	blitiri.com.ar/go/spf v1.1.0
 	github.com/GehirnInc/crypt v0.0.0-20200316065508-bb7000b8a962
+	github.com/caddyserver/certmagic v0.11.2
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/emersion/go-imap v1.0.4
 	github.com/emersion/go-imap-appendlimit v0.0.0-20190308131241-25671c986a6a
@@ -23,6 +24,7 @@ require (
 	github.com/foxcpp/go-imap-sql v0.4.1-0.20200616221550-090ab5cc9d2c
 	github.com/foxcpp/go-mockdns v0.0.0-20200531120619-ae750bbf9d73
 	github.com/foxcpp/go-mtasts v0.0.0-20191219193356-62bc3f1f74b8
+	github.com/go-acme/lego/v3 v3.7.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/google/uuid v1.1.1
 	github.com/klauspost/compress v1.10.9 // indirect

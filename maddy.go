@@ -47,6 +47,7 @@ import (
 	_ "github.com/foxcpp/maddy/internal/target/remote"
 	_ "github.com/foxcpp/maddy/internal/target/smtp"
 	_ "github.com/foxcpp/maddy/internal/tls"
+	_ "github.com/foxcpp/maddy/internal/tls/acme"
 )
 
 var (

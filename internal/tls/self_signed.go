@@ -83,8 +83,9 @@ func (f *SelfSignedLoader) InstanceName() string {
 	return f.instName
 }
 
-func (f *SelfSignedLoader) LoadCerts() ([]tls.Certificate, error) {
-	return []tls.Certificate{f.cert}, nil
+func (f *SelfSignedLoader) ConfigureTLS(cfg *tls.Config) error {
+	cfg.Certificates = []tls.Certificate{f.cert}
+	return nil
 }
 
 func init() {

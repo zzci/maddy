@@ -135,11 +135,13 @@ func (f *FileLoader) loadCerts() error {
 	return nil
 }
 
-func (f *FileLoader) LoadCerts() ([]tls.Certificate, error) {
+func (f *FileLoader) ConfigureTLS(cfg *tls.Config) error {
 	// Loader function replaces only the whole slice.
 	f.certsLock.RLock()
 	defer f.certsLock.RUnlock()
-	return f.certs, nil
+
+	cfg.Certificates = f.certs
+	return nil
 }
 
 func init() {

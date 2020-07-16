@@ -30,11 +30,10 @@ func (cfg *TLSConfig) Get() (*tls.Config, error) {
 	}
 	tlsCfg := cfg.baseCfg.Clone()
 
-	certs, err := cfg.loader.LoadCerts()
+	err := cfg.loader.ConfigureTLS(tlsCfg)
 	if err != nil {
 		return nil, err
 	}
-	tlsCfg.Certificates = certs
 
 	return tlsCfg, nil
 }
@@ -88,7 +87,7 @@ func readTLSBlock(globals map[string]interface{}, blockNode config.Node) (*TLSCo
 		return loader, nil
 	}, func(m *config.Map, node config.Node) (interface{}, error) {
 		var l module.TLSLoader
-		err := modconfig.ModuleFromNode("tls.loader", blockNode.Args, config.Node{}, globals, &l)
+		err := modconfig.ModuleFromNode("tls.loader", node.Args, node, globals, &l)
 		return l, err
 	}, &loader)
 
