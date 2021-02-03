@@ -202,7 +202,8 @@ func (d *delivery) connect(ctx context.Context) error {
 		}
 
 		d.log.DebugMsg("connected", "downstream_server", conn.ServerName())
-
+		d.log.DebugMsg("connected", "Hostname", conn.Hostname)
+		
 		if !didTLS && d.u.requireTLS {
 			conn.Close()
 			lastErr = errors.New("TLS is required, but unsupported by downstream")
